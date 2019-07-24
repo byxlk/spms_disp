@@ -1,0 +1,577 @@
+
+
+#define HD			(320)   //水平有效像素
+#define HBPD		(10)	//水平同步信号的后肩
+#define HFPD		(12)	//水平同步信号的前肩
+#define HSPW		(10)	//水平同步信号的脉宽
+
+#define VD			(480)    //垂直有效像素
+#define VBPD		(8)		//垂直同步信号的后肩
+#define VFPD		(4)		//垂直同步信号的前肩
+#define VSPW		(2)		//垂直同步信号的脉宽
+
+
+
+
+
+void NT35310_POWER_ON()
+{	
+
+
+reset=1;
+delayms(10);
+reset=0;
+delayms(20);
+reset=1;
+delayms(150);
+
+//************* Start Initial Sequence **********//
+
+Write_3Spi_cmd(0xED);//UNLOCK CMD2
+Write_3Spi_data(0x01);
+Write_3Spi_data(0xFE);
+
+Write_3Spi_cmd(0xEE);//PAGE_CTRL into CMD3
+Write_3Spi_data(0xDE);
+Write_3Spi_data(0x21);
+
+Write_3Spi_cmd(0xF1);//
+Write_3Spi_data(0x01);
+
+Write_3Spi_cmd(0xDF);//MTP Function Enable
+Write_3Spi_data(0x10);
+
+Write_3Spi_cmd(0x51);//Write display brightness
+Write_3Spi_data(0xFF);
+
+Write_3Spi_cmd(0x53);//Write control display LED PWM
+Write_3Spi_data(0x2C);
+
+//Write_3Spi_cmd(0x55);Write_3Spi_data(0xb0 ); 
+
+Write_3Spi_cmd(0xB7);//Display control , RGB, REV,CTS
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xC2);//PWR Control 3, VGH/VGL
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x33);  //0x44);
+Write_3Spi_data(0x44);
+Write_3Spi_data(0x44);
+delay(10);
+Write_3Spi_cmd(0xB3);//SPI & RGB interface setting
+Write_3Spi_data(0x21);
+
+Write_3Spi_cmd(0x3b);//Porch setting
+Write_3Spi_data(0x03);//edge setting  0 CRC 0 0 DP EP HSP VSP    CRC=1,HV mode;CRC=0,HV+DE mode
+Write_3Spi_data(0x0c);
+Write_3Spi_data(0x04);
+Write_3Spi_data(0x28);
+Write_3Spi_data(0x32);
+
+Write_3Spi_cmd(0xB4);//inversion control
+Write_3Spi_data(0x3C);  //Add by TRULY
+
+Write_3Spi_cmd(0xC6);//PWR Control 8
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE2);
+Write_3Spi_data(0xE2);
+Write_3Spi_data(0xE2);
+delay(10);
+Write_3Spi_cmd(0xBF);//Set register to CMD2 page 1
+Write_3Spi_data(0xAA);
+
+Write_3Spi_cmd(0xB8);//MTP Selection
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xB7);//Display control , RGB, REV,CTS
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x3F);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x5E);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x64);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8C);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xAC);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDC);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x90);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xEB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDC);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xC2);
+Write_3Spi_data(0x0A);//PWR Control 3
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x04);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xC7);
+Write_3Spi_data(0x00);//
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xC9);
+Write_3Spi_data(0x00);//
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE0);
+Write_3Spi_data(0x01);//GAM
+Write_3Spi_data(0x00)
+;Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE1);
+Write_3Spi_data(0x01);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE2);
+Write_3Spi_data(0x01);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE3);
+Write_3Spi_data(0x01);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE4);
+Write_3Spi_data(0x01);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE5);
+Write_3Spi_data(0x01);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x05);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x15);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x2c);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x47);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x58);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x70);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x8a);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x9b);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xA7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xB3);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC2);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xC8);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD0);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xD7);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xDB);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xE1);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xF3);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE6);
+Write_3Spi_data(0x22);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x44);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x99);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xAA);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE7);
+Write_3Spi_data(0x22);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x44);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x99);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xAA);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE8);
+Write_3Spi_data(0x22);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x44);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x99);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0xAA);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x88);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x66);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x55);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x33);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x11);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xE9);
+Write_3Spi_data(0xAA);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0x00);//into CM2 PAGE0 
+Write_3Spi_data(0xAA);
+
+Write_3Spi_cmd(0xC0);//PWR CTRL1     
+Write_3Spi_data(0x44);  //44   VRHP   GVDD
+Write_3Spi_data(0x24);  //44   VRHN
+Write_3Spi_data(0x20);  //10   VGSP   
+Write_3Spi_data(0x10);  //10   VGSN
+
+Write_3Spi_cmd(0xC4);//PWR CTRL6
+Write_3Spi_data(0x86);
+delay(10);
+Write_3Spi_cmd(0xF3);//
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0xF9);//
+Write_3Spi_data(0x06);
+Write_3Spi_data(0x10);
+Write_3Spi_data(0x29);
+Write_3Spi_data(0x00);
+
+Write_3Spi_cmd(0x11);//Exit sleep
+delay(100);
+Write_3Spi_cmd(0x29);//Display on
+delay(100);
+Write_3Spi_cmd(0x35);//te on
+Write_3Spi_data(0X00);
+
+Write_3Spi_cmd(0x3A);//Color data
+Write_3Spi_data(0x66);
+delay(100);
+Write_3Spi_cmd(0x2c);
+
+
+}
+
+//*********************************************************************//
+
+
+
+void Write_3Spi_cmd(U8 CMD)
+{
+	U8 i;
+ 	Set_SPI_CS(0);
+	Delay(200);
+	Set_SPI_CLK(0);
+	Set_SPI_SDI(0);
+	Set_SPI_CLK(1);
+ for(i=0;i<8;i++)
+ {  
+	Set_SPI_CLK(0);
+	Delay(200);
+    if(CMD&0x80) 	
+    	Set_SPI_SDI(1);
+    else 	
+        Set_SPI_SDI(0);
+	Set_SPI_CLK(1);
+    Delay(200);
+  CMD<<=1;
+ }
+  	Set_SPI_CS(1);
+  	Delay(200);
+
+}
+/****************************************
+
+****************************************/
+void Write_3Spi_data(U8 date)
+{
+
+	U8 i;
+ 	Set_SPI_CS(0);
+	//Delay(200);
+	
+	Set_SPI_CLK(0);
+	Set_SPI_SDI(1);
+	Set_SPI_CLK(1);
+ for(i=0;i<8;i++)
+ {  
+	Set_SPI_CLK(0);
+	Delay(200);
+    if(date&0x80) 	
+    	Set_SPI_SDI(1);
+    else 	
+        Set_SPI_SDI(0);  
+        
+	Set_SPI_CLK(1);
+    Delay(200);
+  date<<=1;
+ }
+  	Set_SPI_CS(1);
+  	Delay(200);
+ 
+}
