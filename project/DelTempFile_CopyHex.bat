@@ -1,4 +1,10 @@
 @echo off
+
+del /a /f /q Objects\*.crf
+del /a /f /q Objects\*.d
+del /a /f /q Objects\*.o
+del /a /f /q Objects\*.__i
+
 set "year=%date:~0,4%"
 set "month=%date:~5,2%"
 set "day=%date:~8,2%"
@@ -13,9 +19,8 @@ if "%hour_ten%" == " " (
     set "dt=%year%%month%%day%-%hour_ten%%hour_one%%minute%%second%"
 )
 
-echo %dt%
-pause
 
 @echo on
-copy Objects\smartswitch.hex ..\output_smartswitch_ad_485_%dt%.hex
-dir ..\output_smartswitch_ad_485_%dt%.hex
+del /a /f /q ..\*.hex
+copy Objects\*.hex ..\spms_display_release_%dt%.hex
+dir ..\spms_display_release_%dt%.hex

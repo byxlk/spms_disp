@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Target 1</TargetName>
+      <TargetName>SmartPowerManageSystem</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060300::V5.06 update 3 (build 300)::ARMCC</pCCUsed>
@@ -321,7 +321,7 @@
             <Rwpi>0</Rwpi>
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
-            <uSurpInc>0</uSurpInc>
+            <uSurpInc>1</uSurpInc>
             <uC99>0</uC99>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
@@ -333,7 +333,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F429_439xx</Define>
               <Undefine></Undefine>
               <IncludePath>..\sourcecode;..\sourcecode\User;..\sourcecode\User\fonts;..\sourcecode\User\fatfs;..\sourcecode\User\fatfs\src;..\sourcecode\User\fatfs\src\option;..\sourcecode\User\bsp;..\sourcecode\User\bsp\inc;..\sourcecode\Libraries\CMSIS\Include;..\sourcecode\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\sourcecode\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\sourcecode\FreeRTOS\include;..\sourcecode\FreeRTOS\portable\MemMang;..\sourcecode\FreeRTOS\portable\RVDS\ARM_CM4F;..\sourcecode\emWin\Config;..\sourcecode\emWin\emWinTask;..\sourcecode\emWin\Include;..\sourcecode\emWin\GUI_X</IncludePath>
             </VariousControls>
@@ -504,6 +504,26 @@
               <FileType>1</FileType>
               <FilePath>..\sourcecode\User\bsp\stm32f4xx_assert.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_i2c_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\User\bsp\src\bsp_i2c_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_user_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\User\bsp\src\bsp_user_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sdio_sd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\User\bsp\src\bsp_sdio_sd.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_eeprom_24xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\User\bsp\src\bsp_eeprom_24xx.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -583,6 +603,21 @@
               <FileName>stm32f4xx_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sourcecode\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_sdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sourcecode\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spi.c</FilePath>
             </File>
           </Files>
         </Group>
